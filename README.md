@@ -147,6 +147,16 @@ Agrega los valores producidos por la fase 1 o por la fase 2 en caso de ser neces
 #### TaskTracker
 Hay un demonio en TasTracker en cada nodo esclavo y se dedica a ejecutar y monitorizar cada Task Map y Reduce. 
 
+## Ecosistema Hadoop
+### Introducción
+Hadoop por sí solo no sería suficiente como entorno de trabajo ya que hay muuchos profesionales que no están acostumbrados a trabajar en entornos tecnológicos puros. Por ello existen una serie de frameworks que permiten trabajar con el marco de trabajo (framework) de Hadoop.
+- Hive
+- Pic
+- Sqoop
+- Flume
+- Kafka
+- 
+
 
 
 
