@@ -132,3 +132,8 @@ Puede nos er necesaria. Ordena la salida de la Fase Map (un par clave/valor) por
 Agrega los valores producidos por la fase 1 o por la fase 2 en caso de ser necesaria en función de la clave para generar  un fichero de salida escrito en HDFS. 
 
 #### Visualmente
+- Ejemplo general
+![plot](MapReduce_proceso.png)
+
+- Contando palabras
+![plot](MapReduce_palabras.png)
