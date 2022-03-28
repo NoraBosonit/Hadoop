@@ -112,4 +112,23 @@ Los demonios que se ejecutan en los nodos Maestro y Esclavo son diferentes.
 
 
 
-# MapReduce
+## MapReduce
+### Definición 
+Es un paradigma de programación caracterizado por dividirse en 3 etapas: **Map, Suffle&Sort y Reduce**. Estos subprocesos se ejecutan de manera distribuida en diferentes nodos de procesamiento o esclavos. Este procesamiento se apoya en tecnologías de almacenamiento de datos distribuidos, en Hadoop es HDFS, el cual se encarga de almacenar la información dividida en bloques que luego MapReduce juntará para obtener los resultados.
+
+### Características
+Es tolerante a fallos
+
+Paraleliza las tareas y las distribuye por el cluster
+
+Está pensado para que sea una abstracción de los programadores, estos solo tienen que definir el Mapper, el Reducer y el Driver. En función de si los bloques con filas de una tabla o palabras sueltas, el Mapper y el Reducer serán diferentes. 
+
+### Proceso
+#### Fase Map 
+Se ejecuta en subtareas llamadas mappers los cuales son los encargados de generar pares clave-valor filtrando, agrupando, ordenando o transformando los datos originales. El mapper actúa sobre cada registro de entrada y cada ejecución opera sobre un único bloque HDFS, si es posible. 
+#### Fase Suffle&Sort
+Puede nos er necesaria. Ordena la salida de la Fase Map (un par clave/valor) por clave para la siguiente fase. 
+#### Fase Reduce
+Agrega los valores producidos por la fase 1 o por la fase 2 en caso de ser necesaria en función de la clave para generar  un fichero de salida escrito en HDFS. 
+
+#### Visualmente
