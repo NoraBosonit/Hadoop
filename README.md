@@ -60,4 +60,5 @@ HDFS está pensado para leer óptimamente archivos de gran tamaño no para lectu
 
 #### Funcionamiento 1
 Cada archivo se divide en bloques entre los nodos del cluster en un tiempo igual al tiempo de escritura replicandóse cada nodo un total de 3 (por defecto aunque modificable) veces. 
+
 ![plot](funcionamiento1.png)
