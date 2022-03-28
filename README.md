@@ -56,9 +56,12 @@ Su característica más importante es que **provee de almacenamiento redundante 
 ### Funcionamiento 
 Está pensado para escribir una sola vez, pero leer muchas. Es preferible borrar el archivo y copiarlo de nuevo antes que modificarlo. Además, es óptimo cuando trabaja con cantidad moderada de datos ya que funciona mejor con millones de datos antes que con billones. 
 
-HDFS está pensado para leer óptimamente archivos de gran tamaño no para lecturas aleatorias --> **DUDA**
+HDFS está pensado para leer óptimamente archivos de gran tamaño no para lecturas aleatorias --> <font color="red">  **DUDA** </font>
 
 #### Funcionamiento 1
 Cada archivo se divide en bloques entre los nodos del cluster en un tiempo igual al tiempo de escritura replicandóse cada nodo un total de 3 (por defecto aunque modificable) veces. 
 
 ![plot](funcionamiento1.png)
+
+
+#### Funcionamiento 2
