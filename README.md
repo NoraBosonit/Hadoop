@@ -123,6 +123,8 @@ Paraleliza las tareas y las distribuye por el cluster
 
 Está pensado para que sea una abstracción de los programadores, estos solo tienen que definir el Mapper, el Reducer y el Driver. En función de si los bloques con filas de una tabla o palabras sueltas, el Mapper y el Reducer serán diferentes. 
 
+**MapReduce permite subdividir tareas complejas en un conjunto de otras más simples y ejecutarlas en paralelo (contando palabras)**
+
 ### Proceso
 #### Fase Map 
 Se ejecuta en subtareas llamadas mappers los cuales son los encargados de generar pares clave-valor filtrando, agrupando, ordenando o transformando los datos originales. El mapper actúa sobre cada registro de entrada y cada ejecución opera sobre un único bloque HDFS, si es posible. 
@@ -137,3 +139,16 @@ Agrega los valores producidos por la fase 1 o por la fase 2 en caso de ser neces
 
 - Contando palabras
 ![plot](MapReduce_palabras.png)
+
+### Demonios
+#### JobTracker
+**Hay un solo demonio por cluster**. Este demonio corre en el o los nodos **Maestro** y se dedica a gestionar los jobs (*una ejecución de MapReduce*) y distribuye las Task (*ejecución de un solo Map o Reduce*) entre los TaskTrackers (demonios de los nodos esclavos)
+
+#### TaskTracker
+Hay un demonio en TasTracker en cada nodo esclavo y se dedica a ejecutar y monitorizar cada Task Map y Reduce. 
+
+
+
+
+
+
