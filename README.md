@@ -56,7 +56,7 @@ Su característica más importante es que **provee de almacenamiento redundante 
 ### Funcionamiento 
 Está pensado para escribir una sola vez, pero leer muchas. Es preferible borrar el archivo y copiarlo de nuevo antes que modificarlo. Además, es óptimo cuando trabaja con cantidad moderada de datos ya que funciona mejor con millones de datos antes que con billones. 
 
-HDFS está pensado para leer óptimamente archivos de gran tamaño no para lecturas aleatorias --> <font color="red">  **DUDA** </font>
+HDFS está pensado para leer óptimamente archivos de gran tamaño no para lecturas aleatorias --> **DUDA**
 
 #### Funcionamiento 1
 Cada archivo se divide en bloques entre los nodos del cluster en un tiempo igual al tiempo de escritura replicandóse cada nodo un total de 3 (por defecto aunque modificable) veces. 
@@ -65,3 +65,51 @@ Cada archivo se divide en bloques entre los nodos del cluster en un tiempo igual
 
 
 #### Funcionamiento 2
+**ESTO NO LO ENTIENDO BIEN**
+
+### Demonios 
+Como se ha mencionado en las nociones básicas, un demonio es un programa que se encarga de procesos del sistema en segundo plano y al que no puede acceder el usuario directamente. Es decir, es un programa especial que se ejecuta en segundo plano en vez de ser controlado directamente por el usuario.
+Los demonios que se ejecutan en los nodos Maestro y Esclavo son diferentes.
+
+#### Nodo Mestro
+- NameNode
+  
+  Se encarga de:
+  
+  El almacenamiento y gestión de los metadatos de los permisos y usuarios
+  
+  Los bloques que componen cada archivo y dónde está cada uno
+  
+  Arrancar un fichero llamado *fsimage* que al arrancarlo los metadatos son guardados en disco y cargado en memoria
+  
+  Guardar los cambios en un fichero llamado *edits* almacenado en memoria. 
+ 
+- Secondary NameNode
+  
+  Realiza las labores de mantenimiento de *fsimage* y *edits*
+  
+- Standby NameNode
+  
+  Este demonio es para arquitecturas con Alta Disponiblidad --> garantizar la continuidad de los servicios ante desperfectos (ataques, corte de energía)
+  
+  Realiza las labores de mantenimiento de *fsimage* y *edits*
+  
+  Toma automáticamente el relevo en caso de fallo
+  
+#### Nodos Esclavos
+- DataNode
+
+
+### Comandos
+ - Copiar un fichero de disco local a HDFS --> **$ hadoop fs -put /.../foo.txt /.../foo.txt**
+ - Listar el directorio Home del usuario --> **$ hadoop fs -ls**
+ - Listar el directorio root del usuario --> **hadoop fs –ls/**
+ - Mostrar el conteido de un fichero --> **hadoop fs -cat /user/fred/bar.txt**
+ - Copiar un fichero de HDFS al local --> **$ hadoop fs -get /user/fred/bar.txt baz.txt**
+ - Crear un directorio en el home de HDFS del usuario llamdo input --> **$ hadoop fs -mkdir input**
+ - Borrar un directorio y todo su contenido --> **$ hadoop fs -rm -r input_old**
+
+
+
+
+# MapReduce
