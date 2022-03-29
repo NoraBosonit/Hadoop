@@ -232,6 +232,8 @@ La fase S&S pued empezar antes de que acabe el Mapper ya que este va enviando la
 ### Detalle del proceso
 En la primera fase, el Mapper, los datos son divididos en Splits (cada split de tamaño de un bloque), tantos como sea necesario y cada uno de ellos es procesado por un Map. Una vez procesados por el Reducer, los datos son almacenados en disco local a la espera de ser enviados al Reducer. Al iniciarse la tarea de transferencia de datos intermedios al Reducer, se realiza la tarea de S&S donde los datos son ordenados por clave. Luego, se procesan los datos en el Reducer y por cada Reducer se genera un fichero de datos almacenado en HDFS. Los datos en cada Reducer están ordenados por clave, pero el no hay un orden en el conjunto de datos de todos los Reducers. Si queremos conseguir un orden total utilizamos un solo Reducer o bien *Partioners*.
 
+![plot](procedo_MapReduce.png)
+
 ## Ecosistema Hadoop
 ### Introducción
 Hadoop por sí solo no sería suficiente como entorno de trabajo ya que hay muuchos profesionales que no están acostumbrados a trabajar en entornos tecnológicos puros. Por ello existen una serie de frameworks que permiten trabajar con el marco de trabajo (framework) de Hadoop.
