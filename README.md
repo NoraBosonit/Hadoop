@@ -255,14 +255,29 @@ Acepta 2 argumentos:
 - Directorio de input
 - Directorio de output
 
-if (args.length != 2) {
-    System.out.printf("Usage: WordCount <input dir> <output dir>\n";
-    System.exit(-1);
-}
+**if (args.length != 2) {**
+
+    **System.out.printf("Usage: WordCount <input dir> <output dir>\n";**
+    
+    **System.exit(-1);**
+    
+**}**
   
 Lo primero que hace el método main es asegurarse de que se han pasado estos dos argumentos. Sino, da error y para la ejecución. 
   
+##### Configuración del Job
+El job es el proceso MapReduce que se quiere llevar a cabo. El objeto Job permite establecer el Mapper y el Reducer especificando una clase en él.
+1. Creamos el Job
+  **Job job = new Job();
+  job.setJarByClass(WordCount.class);**
   
+2. Le damos nombre
+   **job.setJobName("Word Count");**
+4. Especificamos los directorios de entrada y salida
+   **FileInputFormat.setInputPaths(job, new Path(args[0]));
+     FileOutputFormat.setOutputPaths(job, new Path(args[1]));**
+6. g
+7. Nombre de las clases que representa el Mapper y el Reducer
 
 #### Mapper
 #### Reducer
