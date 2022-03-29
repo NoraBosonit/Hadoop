@@ -234,6 +234,40 @@ En la primera fase, el Mapper, los datos son divididos en Splits (cada split de 
 
 ![plot](procedo_MapReduce.png)
 
+
+### Código WordCount
+#### Driver
+El Driver es el encargado de configurar el MapReduce job para que se ejecute en Hadoop. Se especifica el nombre del job, el tipo de datos de entrada/salida, y los nombres de las clases del Mapper y Reducer. 
+
+##### Imports necesarios
+**import org.apache.hadoop.fs.Path;**
+**import org.apache.hadoop.io.IntWritable;**
+**import org.apache.hadoop.io.Text;**
+**import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;**
+**import org.apache.hadoop.mapreduce.lib.input.FileOutputFormat;**
+**import org.apache.hadoop.mapreduce.Job;**
+
+
+##### Método Main
+**public static void main(String[] args) throws Exception {**
+
+Acepta 2 argumentos:
+- Directorio de input
+- Directorio de output
+
+if (args.length != 2) {
+    System.out.printf("Usage: WordCount <input dir> <output dir>\n";
+    System.exit(-1);
+}
+  
+Lo primero que hace el método main es asegurarse de que se han pasado estos dos argumentos. Sino, da error y para la ejecución. 
+  
+  
+
+#### Mapper
+#### Reducer
+
+
 ## Ecosistema Hadoop
 ### Introducción
 Hadoop por sí solo no sería suficiente como entorno de trabajo ya que hay muuchos profesionales que no están acostumbrados a trabajar en entornos tecnológicos puros. Por ello existen una serie de frameworks que permiten trabajar con el marco de trabajo (framework) de Hadoop.
