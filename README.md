@@ -1,5 +1,5 @@
 # Hadoop
-Tradicionalmente se trabajaba en máquinas individuales. Sin embargo, a medida que el tiempo pasa la cantidad de datos va siendo cada vez mayor por lo que se crean cuellos de botella en las máquinas. DE ahí surje una una nueva forma de trabajar con Big Data; Hadoop. 
+Tradicionalmente se trabajaba en máquinas individuales. Sin embargo, a medida que el tiempo pasa la cantidad de datos va siendo cada vez mayor por lo que se crean cuellos de botella en las máquinas. De ahí surje una nueva forma de trabajar con Big Data; Hadoop. 
 
 ## Deficición
 Hadoop es un framework de código abierto para almacenar datos y ejecutar aplicaciones en clusters.
@@ -90,7 +90,7 @@ Los demonios que se ejecutan en los nodos Maestro y Esclavo son diferentes.
   
 - Standby NameNode
   
-  Este demonio es para arquitecturas con Alta Disponiblidad --> garantizar la continuidad de los servicios ante desperfectos (ataques, corte de energía)
+  Este demonio es para arquitecturas con Alta Disponiblidad --> garantizar la continuidad de los servicios ante desperfectos (ataques, corte de energía). Esto se consigue habiendo varios nodos maestros en espera en distintas sedes situadas en lugares diferentes (demonio Standby NameNode).
   
   Realiza las labores de mantenimiento de *fsimage* y *edits*
   
@@ -98,6 +98,34 @@ Los demonios que se ejecutan en los nodos Maestro y Esclavo son diferentes.
   
 #### Nodos Esclavos
 - DataNode
+  
+  Los nodos almacenan los bloques, no información de los mismos
+  
+  Se encarga de acceder a los bloques
+  
+  Cada nodo esclavo se encarga de hacer una copia hasta llegar al factor de replicación
+  
+  Gestionan las Tasks que componen un Job
+  
+
+#### Checkpoint del Secondary NameNode
+Cada hora o cada millón de transacciones el SNN (**No sé qué es**) realiza el checkpoint de los metadatos. Pasos:
+1. LLama al NameNode para obtener el fichero edits
+2. Obtiene el fichero edits y fsimage del NameNode
+3. Carga el fichero fsimage en memoeria y agrega los cambios del fichero edits
+4. Crea el nuevo fsimage consolidado
+5. Envía el nuevo fichero el NameNode 
+6. El NameNode reemplaza el antiguo fsimage por el nuevo
+
+### Lecturas y escrituras
+#### Escritura
+1. El cliente conecta con el NameNode
+2. 2. El NameNode busca en sus metadatos *fsimage* y devuelve el nombre de los bloques y lista de los DataNodes donde se va a escribir la nueva infromación
+3. El cliente conecta con el primer DataNode de la lista y empieza el envío de los datos
+4. Se conecta con el segundo DataNode para realizar el envío y lo mismo con el tercero (replicación 3)
+5. Finaliza el envío a los DataNodes
+6. El cliente indica al NamdeNode dónde se ha realizado la escritura
+
 
 
 ### Comandos
@@ -129,15 +157,19 @@ Está pensado para que sea una abstracción de los programadores, estos solo tie
 #### Fase Map 
 Se ejecuta en subtareas llamadas mappers los cuales son los encargados de generar pares clave-valor filtrando, agrupando, ordenando o transformando los datos originales. El mapper actúa sobre cada registro de entrada y cada ejecución opera sobre un único bloque HDFS, si es posible. 
 #### Fase Suffle&Sort
-Puede nos er necesaria. Ordena la salida de la Fase Map (un par clave/valor) por clave para la siguiente fase. 
+Puede nos ser necesaria. Ordena la salida de la Fase Map (un par clave/valor) por clave para la siguiente fase. 
 #### Fase Reduce
 Agrega los valores producidos por la fase 1 o por la fase 2 en caso de ser necesaria en función de la clave para generar  un fichero de salida escrito en HDFS. 
 
 #### Visualmente
+
 - Ejemplo general
+
 ![plot](MapReduce_proceso.png)
 
+
 - Contando palabras
+
 ![plot](MapReduce_palabras.png)
 
 ### Demonios
