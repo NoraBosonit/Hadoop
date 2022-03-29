@@ -135,6 +135,15 @@ Cada hora o cada millón de transacciones el SNN (**No sé qué es**) realiza el
 
 ![plot](lectura_hdfs.png)
 
+### Fiabilidad y recuperación
+Los DataNode envían señales al NameNode cada 3 segundos. Si pasado un tiempo (por defecto 5 segudos) el NameNode no recibe información de alguno de los nodos, se da el nodo por perdido y **los demás DataNodes** distribuyen los bloques que contenía entre los demás DataNodes para mantener el factor de replicación.
+
+Si este nodo se recupera, el sistema automáticamente decidirá qué bloques eliminar para mantener el factor de replicación de los bloques. 
+
+Si el Maestro detecta que un Esclavo (DataNode) está ejecutando las Tasks más lento de lo normal, se envía la misma Task a otro nodo. El primero que acabe entrega el resultado y los procesos del más lento se matan. 
+
+
+
 
 ### Comandos
  - Copiar un fichero de disco local a HDFS --> **$ hadoop fs -put /.../foo.txt /.../foo.txt**
@@ -181,11 +190,47 @@ Agrega los valores producidos por la fase 1 o por la fase 2 en caso de ser neces
 ![plot](MapReduce_palabras.png)
 
 ### Demonios
-#### JobTracker
-**Hay un solo demonio por cluster**. Este demonio corre en el o los nodos **Maestro** y se dedica a gestionar los jobs (*una ejecución de MapReduce*) y distribuye las Task (*ejecución de un solo Map o Reduce*) entre los TaskTrackers (demonios de los nodos esclavos)
+#### Demonios de MapReduce V1
+##### JobTracker
+**Hay un solo demonio por cluster**. Este demonio corre en el o los nodos **Maestro** y se dedica a gestionar los jobs (*una ejecución de MapReduce*) y distribuye las Task (*ejecución de un solo Map o Reduce, una tarea*) entre los TaskTrackers (demonios de los nodos esclavos)
 
-#### TaskTracker
+##### TaskTracker
 Hay un demonio en TasTracker en cada nodo esclavo y se dedica a ejecutar y monitorizar cada Task Map y Reduce. 
+
+#### Demonios de MapReduce V2-Yarn
+Estos demonios se encargan de reducir la carga de trabajo del JobTracker ya que este se encarga de todo en la Versión V1. Es como contratar encargados para que el jefe se pueda encargar de cosas de mayor índole. 
+
+##### Resource Manager
+Solo hay 1 por cluster y se encarga de arrancar el AplicationMasters y dota de recursos (CPU, RAM) a los nodos esclavos
+
+##### AplicationMasters
+Hay uno por job, tiene que pedir recursos y se encarga de gestionar cada task map y reduce en el conjunto de nodos en los que se está ejecutando las tareas asociadas al job
+
+##### Node Manager
+Hay uno por cada nodo esclavo y se encarga de gestionar las tareas asociadas al job
+
+##### Containers
+Es el conjunto de recursos cedidos por el ResourceManager tras una petición
+
+##### JobHistory
+Hay uno por cluster y almacena las métricas de los jobs y los metadatos.
+
+### Localización
+#### Localidad del dato
+Cuando es posible, un Map Task se ejecuta en el nodo donde el bloque está localizado. Si esto no es posible, la Map Task se trae el bloque donde están los datos al nodo en el que se está ejecutando a través de la red.
+Esto sucede cuando el nodo donde está el bloque está sobrecargado y merece la pena perder un poco de tiempo moviendo el bloque a través de la red.
+
+#### Datos intermedios
+Son los que se generan en la fase Shuffle&Sort y se almacenan en disco local, no es HDFS. Estos se borran luego de que el job haya termiando completamente.
+
+#### Reducers
+Sus datos no se procesan en el nodo donde se encuentra el Reducer sino que es el propio cluster el que decide en qué nodos se van a ejecutar los Reducers. La fase de S&S (Suffle&Sort) genera gran cantidad de movimiento en la red ya que la información tiene que llegar a los reducers para que se procede y se produzca la salida, la cual se escribe en HDFS.
+
+#### Suffle&Sort
+La fase S&S pued empezar antes de que acabe el Mapper ya que este va enviando la información nada más se va procesando y se ejecutaen S&S de forma paralalela. Sin embargo, el Reducer no puede comenzar hasta que el Suffle&Sort haya termiando. 
+
+### Detalle del proceso
+En la primera fase, el Mapper, los datos son divididos en Splits (cada split de tamaño de un bloque), tantos como sea necesario y cada uno de ellos es procesado por un Map. Una vez procesados por el Reducer, los datos son almacenados en disco local a la espera de ser enviados al Reducer. Al iniciarse la tarea de transferencia de datos intermedios al Reducer, se realiza la tarea de S&S donde los datos son ordenados por clave. Luego, se procesan los datos en el Reducer y por cada Reducer se genera un fichero de datos almacenado en HDFS. Los datos en cada Reducer están ordenados por clave, pero el no hay un orden en el conjunto de datos de todos los Reducers. Si queremos conseguir un orden total utilizamos un solo Reducer o bien *Partioners*.
 
 ## Ecosistema Hadoop
 ### Introducción
@@ -195,7 +240,6 @@ Hadoop por sí solo no sería suficiente como entorno de trabajo ya que hay muuc
 - Sqoop
 - Flume
 - Kafka
-- 
 
 
 
