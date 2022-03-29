@@ -120,12 +120,20 @@ Cada hora o cada millón de transacciones el SNN (**No sé qué es**) realiza el
 ### Lecturas y escrituras
 #### Escritura
 1. El cliente conecta con el NameNode
-2. 2. El NameNode busca en sus metadatos *fsimage* y devuelve el nombre de los bloques y lista de los DataNodes donde se va a escribir la nueva infromación
+2. 2. El NameNode busca en sus metadatos *fsimage* y devuelve el nombre de los bloques donde hay hueco y lista de los DataNodes donde se va a escribir la nueva información
 3. El cliente conecta con el primer DataNode de la lista y empieza el envío de los datos
 4. Se conecta con el segundo DataNode para realizar el envío y lo mismo con el tercero (replicación 3)
 5. Finaliza el envío a los DataNodes
 6. El cliente indica al NamdeNode dónde se ha realizado la escritura
 
+![plot](escritura_hdfs.png)
+
+#### Lectura
+1. El cliente conecta con el NameNode
+2. El NameNode devuelve una lista de los DataNode que contienen ese bloque
+3. El cliente conecta con el primer DataNode y comeinza la lectura del bloque
+
+![plot](lectura_hdfs.png)
 
 
 ### Comandos
