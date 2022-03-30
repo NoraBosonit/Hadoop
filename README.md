@@ -333,5 +333,92 @@ Consta de 3 partes que hay que configurar dependiendo de lo que queramos obtener
 No veo de gran utilidad ponerlo en los apuntes.
 
 
+# Ecosistema
+## Hive
+### Descripción
+Es una estructura de almacenaje y consulta de datos de grandes volúmenes de datos mediante un lenguaje llamado **HiveQL (o HQL)** basado en SQL. Estas consultas se traducen de HQL a MapReduce y ejecutarse en Hadoop. 
+
+### Niveles 
+- Bases de datos
+  Espacio de nombres que agrupa tablas y otras unidades de datos
+- Tablas
+  Unidades de datos homogéneas que comparten un mismo esquema
+- Particiones
+  Cada tabla puede tener una o más claves de particionado que determinan cómo se almacenan los datos
+- Buckets (o Clusters)
+  Las partiones a su vez se dividen en *buckets*
+  
+### Tipos de datos
+#### Numéricos
+- TINYINT
+- SMALLINT
+- INT
+- BIGINT
+- FLOAT
+- DOUBLE
+- DECIMAL
+
+#### Fecha y hora
+#### Complejos
+PONER TABLA DE ESTO. INTERESANTE
+
+### Operadores
+#### Relacionales
+#### Aritméticos
+#### Otros
+
+### Bases de datos
+CREATE DATABASE nombre; --> Crear una base de datos
+USE nombre; --> Cambiar de base de datos
+DROP DATABASE nombre; --> Borrar una base de datos
+
+### Creación de tablas  
+  
+Tablas en Word
+  
+
+### RLIKE y REGEX SerDe: Expresiones regulares Java
+tabla diapo 38
+A veces hay datos que no tienen delimitadores específicos o claros. Al leer la linea es dificil saber qué parte es cada variable por lo que necesitamos expresiones regulares. 
+
+CREATE TABLE nombre(
+    var1  STRING,
+    var2  STRING,
+    var3  STRING,
+    var4  STRING)
+ ROE FORMAT SERDE '... lo que vaya aquí'
+ WITH SERDEPROPERTIES ("input.regex" = EXPRESIÓN REGULAR QUE SEPARE LA FILA EN VARIABLES);
+
+### ORDER BY y SORT BY
+Order by hace un orden total y se envían todos los resultados a un solo reducer mientras que Sort by realiza un orden local en cada reducer. 
+
+### DISTRIBUTE BY con SORT BY
+Controla cómo la salida del map se divide entre los reducers. Esto es utilizado por Hive cuando convierte las consultas a MapReduce. Asegura que las filas que tenegan en mismo valor en cierto campo vayan al mismo reducer
+
+### Casting
+Cambiar el formato de de una variable a otro diferente. 
+
+### UNION ALL 
+Une el resultado de 2 o más subconsultas para mostrarlo por pantalla. Todas las consultas deben devolver el mismo número de consultas. 
+
+### VIEW
+Cuando una consulta se vuelve demasiado complicada se utilizan **vistas** para reducir la compejidad de la misma. 
+
+
+## Impala ###################################################################################
+
+## Pig
+### Conceptos básicos
+- Un *field* es un elemento , un atributo de la base de datos
+- Una *collection* de valores es llamado *tuple*, que es el formado por los *fields* del mismo infividuo
+- Una *collection* de *tuples* es un *bag*
+
+La relación es una bag con un nombre asignado 
+
+### Sintaxis básica
+Pig Latin es un lenguaje de flujo de datos representado por una secuencia de instrucciones
+Ejemplo
+
+
 
 
