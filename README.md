@@ -323,6 +323,7 @@ Consta de 3 partes que hay que configurar dependiendo de lo que queramos obtener
 
 **- Bases de datos No-SQL**
     No-SQL significa "Not Only SQL", es decir, no se usa por defecto SQL para hacer las consultas. Ejemplos:
+  - Cassandra --> JSON
   - MongoDB
   - Neo4j --> Grafos
   - Hbase
