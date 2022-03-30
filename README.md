@@ -303,22 +303,28 @@ Hadoop por sí solo no sería suficiente como entorno de trabajo ya que hay muuc
 **- Flume**
     Fue diseñada para importar datos en un cluster en tiempo real desde distintos orígenes de datos a BBDD relacionales. 
 Consta de 3 partes que hay que configurar dependiendo de lo que queramos obtener:
+
     - Source
+    
     - Channel
+    
     - Sink
     ![plot](flume_ejemplo.png)
     
 **- Kafka**
     Proporciona una plataforma unificada de alto rendimiento y de baja latencia para la manipulación de funetes de datos a tiempo real.
-    
     Arquitectura de Kafka
     ![plot](kafka_ejemplo.png)
 
 **- Bases de datos No-SQL**
     No-SQL significa "Not Only SQL", es decir, no se usa por defecto SQL para hacer las consultas. Ejemplos:
+    
     - Cassandra --> JSON
+    
     - MongoDB
+    
     - Neo4j --> Grafos
+    
     - Hbase
 
 ### Planificación cluster Hadoop
