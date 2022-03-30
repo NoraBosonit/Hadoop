@@ -299,7 +299,7 @@ Hadoop por sí solo no sería suficiente como entorno de trabajo ya que hay muuc
 **- Sqoop**
     Se dedica principalemte a traer datos desde las BBDD relacionales a HDFS utilizando una parte de configuración más otra de SQL. 
     
-    ![plot](sqoop_ejemplo.png)
+    ![plot](Sqoop_ejemplo.png)
 
 **- Flume**
     Fue diseñada para importar datos en un cluster en tiempo real desde distintos orígenes de datos a BBDD relacionales. 
