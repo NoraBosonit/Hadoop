@@ -405,7 +405,20 @@ Une el resultado de 2 o más subconsultas para mostrarlo por pantalla. Todas las
 Cuando una consulta se vuelve demasiado complicada se utilizan **vistas** para reducir la compejidad de la misma. 
 
 
-## Impala ###################################################################################
+## Impala 
+### Descripción
+Es un motor SQL de elevado rendimiento pensado para operar con grandes volúmenes de datos que corre sobre clusters Hadoop y puede ejecutar Queries tanto en HDFS como en Hbase.
+
+### Características
+Ejecuta las Queries directamente sobre un cluster en lugar de ejecutar MapReduce para procesar. **Es unas 5 veces más rápido** que Hive o Pig aunque puede ser hasta 20 veces más rápido.
+
+### Ventajas
+Es más efectivo que programar en MapReduce ya que programar en SQL ocupa menos espacio que programar en Java. Es soportado por PowerBI y además es extensible mediante Java para abarcar otras herramientas.
+
+
+
+
+# Seguir############################################################################
 
 ## Pig
 ### Conceptos básicos
@@ -419,6 +432,68 @@ La relación es una bag con un nombre asignado
 Pig Latin es un lenguaje de flujo de datos representado por una secuencia de instrucciones
 Ejemplo
 
+![plot](pig_codigo.png)
+
+### Carga y almacenamiento de datos
+#### Carga
+La función por defecto para la carga de datos se denomina PigStorage la cual está implícita en la intrucción LOAD y por defecto asume que el texto está separado por comas.
+
+allsales = LOAD 'sales' AS (name, price);
+Aquí se estácargando el fichero en la variable 'sales' y asigna nombres a las columnas aunque esto no es obligatorio.
+allsales = LOAD 'sales';
+
+Se puede indicar el delimitador de las columnas como argumento de PigStorage
+allsales = LOAD 'sales-csv' USING PigStorage(',') AS (name, price);
+
+#### Almacenamiento de datos
+DUMP --> muestra la salida por pantalla
+STORE --> envía los resultados al disco (HDFS)
+
+DUMP result; -- siendo result un identificador
+
+### Tipos de datos
+Pig trata a los tipos no identificados como *bytearray*.
+
+| Tipo | Ejemplo |
+| ------------- | ------------- |
+| int  | 2013  |
+| long  | 5,34,12L  |
+| float  | 2013  |
+| double  | 3,1415  |
+| boolean*  | true  |
+| datetime*  | 2013-05-30T14:52:39.000-04:00  |
+| charray  |  Alice  |
+| bytearray  | N/A  |
+
+Se puede especificar el tipo de datos:
+allsales = LOAD 'sales' AS (name:charray, price:int);
+
+Los datos inválidos Pig los trata como NULL
+hasprices = FILTER Records BY price IS NOT NULL;
+
+### Filtrado y ordenación de los datos
+bigsales = FILTER allsales By price > 3000;
+bigsales = FILTER allsales BY name == 'Dieter' OR (price > 3500 AND price < 4000);
+
+#### Comparación de registros 
+Con el operador ==
+alices = FILTER allasales BY name == 'Alice';
+
+Con expresiones regulares con MATCHES
+a_names = FILTER allsales BY name MATCHES 'A.*';
+
+#### Selección y generación de campos
+Podemos generar nuevas columnas con FOREACH y GENERATE
+t = FOREACH allsales GENERATE price * 0.07;
+t = FOREACH allsales GENERATE price * 0.07 AS tax;
+t = FOREACH allsales GENERATE price * 0.07 AS tax:float;
+
+#### Eliminación y ordenación de resultados
+El comando DISTINCT elimina los registros duplicados de una *bag* (tabla). Básicamente para que el distinct se aplique, debe haber 2 filas con los mismos campos en todos sus atributos. 
+unique = DISTINCT all_alices
+
+### Funciones básicas
+ROUND(), UPPER(), RANDOM(), SUBSTRING()
 
 
 
