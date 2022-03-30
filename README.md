@@ -298,7 +298,6 @@ Hadoop por sí solo no sería suficiente como entorno de trabajo ya que hay muuc
 
 **- Sqoop**
     Se dedica principalemte a traer datos desde las BBDD relacionales a HDFS utilizando una parte de configuración más otra de SQL. 
-    
     ![plot](Sqoop_ejemplo.png)
 
 **- Flume**
@@ -307,14 +306,12 @@ Consta de 3 partes que hay que configurar dependiendo de lo que queramos obtener
     - Source
     - Channel
     - Sink
-    
     ![plot](flume_ejemplo.png)
     
 **- Kafka**
     Proporciona una plataforma unificada de alto rendimiento y de baja latencia para la manipulación de funetes de datos a tiempo real.
     
     Arquitectura de Kafka
-    
     ![plot](kafka_ejemplo.png)
 
 **- Bases de datos No-SQL**
