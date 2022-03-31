@@ -415,7 +415,19 @@ Ejecuta las Queries directamente sobre un cluster en lugar de ejecutar MapReduce
 ### Ventajas
 Es más efectivo que programar en MapReduce ya que programar en SQL ocupa menos espacio que programar en Java. Es soportado por PowerBI y además es extensible mediante Java para abarcar otras herramientas.
 
+### Comparativa Impala con Hive
+#### Similitudes
+- Ambas usan variantes de SQL
+- Comparten el mismo **metastore** en el cluster
+- Operan sobre tablas en HDFS y metadatos en el Metastore
 
+#### Diferencias
+Hive soporta, pero Impala no:
+- Tipo DATE
+- Funciones XML y JSON
+- Sampling
+- Vistas laterales
+- Múltiples cláusulas DISTINCT por query
 
 
 # Seguir############################################################################
@@ -494,6 +506,19 @@ unique = DISTINCT all_alices
 
 ### Funciones básicas
 ROUND(), UPPER(), RANDOM(), SUBSTRING()
+
+## Sqoop
+### Descripción
+Es una herramienta para transferir datos entre RDBMs y Hadoop y se utiliza para datos que están almacenados en Bases de Datos Relacionales que queremos mover a Hadoop para aprovechar toda su potencia. 
+
+### Aspectos importantes
+Sqoop importa datos de sde RDBMs a HDFS de varias formas:
+- Transfiere una sola tabla
+- Transfiere todas las tablas en BBDD
+- Transfiere partes de una tabla (soporta la cláusula WHERE)
+
+**Para importar los datos utiliza MapReduce** por lo que los ficheros se guardan con extensión \*.0\*. El primer import importa todas las filas de una tabla y el resto solo las filas creadas desde la última importación. 
+
 
 
 
