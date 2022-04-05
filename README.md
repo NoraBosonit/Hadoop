@@ -520,5 +520,70 @@ Sqoop importa datos de sde RDBMs a HDFS de varias formas:
 **Para importar los datos utiliza MapReduce** por lo que los ficheros se guardan con extensión \*.0\*. El primer import importa todas las filas de una tabla y el resto solo las filas creadas desde la última importación. 
 
 
+## Spark
+### Introducción
+Spark es mucho más rápido que Hadoop porque guarda la información en memoria en vez de en disco.
+Soporta programación distribuida en la nube, pero hay que tener en cuenta la latencia de la red (los nodos están distribuidos por la nube). 
+Se programa en Scala, Python o R
+Spark implementa un modelo de datos distribuidos llamado RDD (Resilient Distributed Dataset)
+Spark es mucho más rápido por las siguientes cuestiones:
+- Almacena los datos en memoria
+- Los datos se mantienen inmutables y en memoria todo el tiempo
+- Todas las operaciones son transformaciones funcionales (como SQL, se devuelve algo, pero no cambia el dataset)
+- Si no se cambia la base de datos original, no habrá fallos (tolerante a fallos)
+
+**Spark Core:** Contiene la funcionalidad básica de Spark (gestión de tareas, recuperación de fallos) y es dónde se aloja la API que define los RDD.
+
+**Spark SQL:** Es el paquete que permite trabajar con SQL o HQL
+
+**Spark Streaming:** Permite procesar datos a tiempo real
+
+**Millib:** Librería que contiene funcionalidades de ML
+
+**GraphX:** Librería para manipular grafos y ejecutar computación paralela
+
+### Trabajando con RDDs
+RDD: Resilient Distributed Dataset es:
+**- Resiliente**(tolerante a fallos): Se pueden recuperar los datos en memoria su se pierden
+
+**- Inmutable:** No se pueden hacer modificaciones en un RDD. Si se quiere modificar se tiene que crear una copia
+
+**Distribuido:** Cada RDD es dividido en particiones automáticamente
+
+Los usuarios pueden realizar 2 tipos de operaciones spbre las RDD:
+1. **Transformaciones:** operaciones que crean un nuevo RDD (devilver un filtrado)
+2. **Acciones:** operaciones que devuelven un resultado distinto de otro RDD (contar el número de filas de un RDD)
+
+***Spark Context*** es la manera de cominicarse con el clúster
+
+**Parallelize** convierte una *Scala Collection* local en un RDD
+```
+scala> val lines = sc.parallelize(list("pandas", "i like pandas"))
+lines: org.apache.spark.rdd.RDD[String] = ParallelCollectionRDD[1] at parallelize at <console>:24
+```
+***textfile*** lee un fichero de texto desde HDFS o local y lo transforma en RDD
+```
+scala> val textlines=sc.textFile("README.md")
+textlines: org.apache.spark.rdd.RDD[String] = README.md MapPartitionsRDD[3] at textFile at <console>:24
+```
+
+#### Transformaciones y acciones
+- Las transformaciones son perezosas. Es deicr, Spark no las procesa hasta que no se ejecuta una acción sobre los RDD. 
+- Las acciones no son perezosas, sino que el resultado es inmediatamente computado
+
+Esto sucede para reducir el tráfico de red. Spark accede solo a los datos a los que se quiere aplicar la acción, no necesita los demás. 
+
+**Si se va a utilizar el mismo RDD varias veces es interesante mantener los datos usando *RDD.persist()***. Esto hace que Spark almacene los datos en memoria particionados a lo largo del cluster. 
+
+**- Transformaciones más usadas:**
+    - map() genera un nuefo RDD 
+    - filter() genera los elementos que cumplen cierta condición (como el WHERE de SQL)
+    - flatMap() devuelve varios elementos dado uno de entrada
+
+**- Acciones más usadas:**
+    - reduce() opera y devuelve un resultado (una suma). Los números deben ser del mismo tipo
+    
+ 
+
 
 
