@@ -582,6 +582,10 @@ Esto sucede para reducir el tráfico de red. Spark accede solo a los datos a los
 
 **- Acciones más usadas:**
     - reduce() opera y devuelve un resultado (una suma). Los números deben ser del mismo tipo
+
+### PairsRDD
+Las operaciones sobre datos del tipo K,V son las más usadas en el mundo del Big Data y son las claves del diseño del Map Reduce. 
+En Spark, los pares K-V se llaman PairsRDD
     
  
 
